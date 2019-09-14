@@ -9,9 +9,12 @@
     <title>Arablinks</title>
   </head>
   <body>
-    {% block content %}
+    {% include 'base/nav.html' %}
+    <div class="container-fluid">
+      {% block content %}
 
-    {% endblock content %}
+      {% endblock content %}
+    </div>
     <!-- Optional JavaScript -->
     {% include 'base/js.html' %}
   </body>
