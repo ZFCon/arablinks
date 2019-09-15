@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 class LoginForm(forms.Form):
     user = forms.CharField(label='', max_length=50, widget = 
@@ -31,7 +31,7 @@ class RegisterForm(forms.Form):
         'class': "form-control my-2", 
         'placeholder': "User"
         }))
-    email = forms.CharField(label='', max_length=50, widget = 
+    email = forms.EmailField(label='', max_length=50, widget = 
     forms.TextInput(attrs = {
         'class': "form-control my-2", 
         'placeholder': "Email",
@@ -50,6 +50,7 @@ class RegisterForm(forms.Form):
         'type': 'password', 
         }))
     def clean_user(self):
+        User = get_user_model()
         data = self.cleaned_data["user"]
         if User.objects.filter(username=data).exists():
             raise forms.ValidationError('This user are taken.')
@@ -57,6 +58,7 @@ class RegisterForm(forms.Form):
             pass
         return data
     def clean_email(self):
+        User = get_user_model()
         data = self.cleaned_data["email"]
         if User.objects.filter(email=data).exists():
             raise forms.ValidationError('This email are taken.')

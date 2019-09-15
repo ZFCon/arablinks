@@ -3,6 +3,7 @@ from django.views import View
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 def index(request):
@@ -13,7 +14,7 @@ class LoginView(View):
         if request.user.is_authenticated:
             return redirect('index')
         forms = LoginForm()
-        return render(request, 'arablinks/login.html', context={'forms': forms})
+        return render(request, 'arablinks/login.html', locals())
     def post(self, request):
         forms = LoginForm(request.POST)
         error = forms.non_field_errors
@@ -24,7 +25,7 @@ class LoginView(View):
             if user is not None:
                 login(request, user)
                 return redirect('index')
-        return render(request, 'arablinks/login.html', context={'forms': forms, 'error':error})
+        return render(request, 'arablinks/login.html', locals())
 def logout_view(request):
     logout(request)
     return redirect('index')
@@ -34,8 +35,9 @@ class RegisterView(View):
         if request.user.is_authenticated:
             return redirect('index')
         forms = RegisterForm()
-        return render(request, 'arablinks/register.html', context={'forms':forms})
+        return render(request, 'arablinks/register.html', locals())
     def post(self, request):
+        User = get_user_model()
         forms = RegisterForm(request.POST)
         error = forms.non_field_errors
         if forms.is_valid():
@@ -47,4 +49,4 @@ class RegisterView(View):
             if user is not None:
                 login(request, user)
                 return redirect('index')
-        return render(request, 'arablinks/register.html', context={'forms':forms, 'error':error})
+        return render(request, 'arablinks/register.html', locals())
