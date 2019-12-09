@@ -3,9 +3,13 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-  
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
+        {% if request.user.is_authenticated %}
+        <li class="nav-item active">
+          <a class="nav-link text-primary" href="{% url 'account:index' %}">My Acount <span class="sr-only">(current)</span></a>
+        </li>
+        {% endif %}
         <li class="nav-item active">
           <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
         </li>
@@ -25,10 +29,7 @@
         {% endif %}
         {% if request.user.is_authenticated %}
         <li class="nav-item active">
-          <a class="nav-link text-primary" href="{% url 'index' %}">My Acount <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link text-danger" href="{% url 'logout' %}">Logout <span class="sr-only">(current)</span></a>
+            <a class="nav-link text-danger" href="{% url 'logout' %}">Logout<span class="sr-only">(current)</span></a>
         </li>
         {% endif %}
       </ul>
